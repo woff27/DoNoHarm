@@ -2,53 +2,71 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 public class gameLogic : MonoBehaviour {
 
-    public class insurePrompt //The pop-ups on the computer with patient information
+    Text ageText;
+    Text genderText;
+    Text conditionText;
+    Text notesText;
+
+    public string preCondition;
+    public string age;
+    public string notes;
+    public string gender;
+
+    private int patientNum;
+
+    private string gameDataFileName = "PatientInfoData.json";
+
+    private void LoadGameData()
     {
-        public string preCondition; //Pre-existing conditions 
+        //point to JSON file
+        string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
+        if (File.Exists(filePath))
+        {
+            string dataAsJson = File.ReadAllText(filePath);
+            //GameData loadedData = JsonUtility.FromJson<GameData>(dataAsJson);
 
-        public string gender; //Still up in the air for this one, but for now the patient's self-identified gender. Can also be n/a
+            GameData[] patient = JsonHelper.FromJson<GameData>(dataAsJson);
 
-        public string age;
+            patientNum = Random.Range(0,2);
 
-        public string notes; //Notes placed by either doctor's or the company about the patient
+            age = patient[patientNum].age;
+            preCondition = patient[patientNum].preCondition;
+            gender = patient[patientNum].gender;
+            notes = patient[patientNum].notes;
+        }
+        else
+        {
+            Debug.Log("Cannot load data");
+        }
     }
 
-    Text age;
-    Text gender;
-    Text condition;
-    Text notes;
-    
+    private void showPatientInfo()
+    {
+        //change text fields on the Text Unity UI objects
+        ageText.text = age;
+        genderText.text = gender;
+        conditionText.text = preCondition;
+        notesText.text = notes;
+    }
 
-	// Use this for initialization
 	void Start ()
     {
-        //Initialize FirstPrompt Class and add values
-        insurePrompt FirstPrompt = new insurePrompt();
-        FirstPrompt.preCondition = "This is a thing";
-        FirstPrompt.gender = "no gender specified";
-        FirstPrompt.age = "45";
-        FirstPrompt.notes = "Notes go here";
-
-        //Pair Text variables with Unity object UI Text Objects
-        age = GameObject.Find("Age").GetComponent<Text>();
-        gender = GameObject.Find("Gender").GetComponent<Text>();
-        condition = GameObject.Find("Condition").GetComponent<Text>();
-        notes = GameObject.Find("Notes").GetComponent<Text>();
-
-        //Change text on screen to FirstPromt class values
-        age.text = FirstPrompt.age;
-        gender.text = FirstPrompt.gender;
-        condition.text = FirstPrompt.preCondition;
-        notes.text = FirstPrompt.notes;
+        //Load data from JSON
+        LoadGameData();
         
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
+        //Pair Text variables with Unity object UI Text Objects
+        ageText = GameObject.Find("Age").GetComponent<Text>();
+        genderText = GameObject.Find("Gender").GetComponent<Text>();
+        conditionText = GameObject.Find("Condition").GetComponent<Text>();
+        notesText = GameObject.Find("Notes").GetComponent<Text>();
+
+        //Show patient info on the computer window
+        showPatientInfo();
+        
+
 	}
 }
