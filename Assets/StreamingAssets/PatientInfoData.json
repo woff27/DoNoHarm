@@ -1,14 +1,32 @@
 {
 	"Items": [{
 			"preCondition": "Cancer",
-			"age": "44",
-			"gender": "male",
+			"age": "14",
+			"gender": "nunya",
 			"notes": "This is notes"
 		},
 		{
-			"preCondition": "Not Cancer",
+			"preCondition": "Drug Addiction",
 			"age": "24",
 			"gender": "Female",
+			"notes": "This is Not notes"
+		},
+		{
+			"preCondition": "Depression",
+			"age": "64",
+			"gender": "Cis Male",
+			"notes": "This is Not notes"
+		},
+		{
+			"preCondition": "N/A",
+			"age": "29",
+			"gender": "NB",
+			"notes": "This is notes"
+		},
+		{
+			"preCondition": "Chronic Illness",
+			"age": "44",
+			"gender": "Agender",
 			"notes": "This is Not notes"
 		}
 	]

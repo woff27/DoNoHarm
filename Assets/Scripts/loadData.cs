@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class gameLogic : MonoBehaviour {
+public class loadData : MonoBehaviour {
 
     Text ageText;
     Text genderText;
@@ -16,11 +16,16 @@ public class gameLogic : MonoBehaviour {
     public string notes;
     public string gender;
 
-    private int patientNum;
+    public GameObject ageObject;
+    public GameObject genderObject;
+    public GameObject conditionObject;
+    public GameObject notesObject;
+
+    public int patientNum;
 
     private string gameDataFileName = "PatientInfoData.json";
 
-    private void LoadGameData()
+    public void loadGameData()
     {
         //point to JSON file
         string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
@@ -31,7 +36,7 @@ public class gameLogic : MonoBehaviour {
 
             GameData[] patient = JsonHelper.FromJson<GameData>(dataAsJson);
 
-            patientNum = Random.Range(0,2);
+            patientNum = Random.Range(0,5);
 
             age = patient[patientNum].age;
             preCondition = patient[patientNum].preCondition;
@@ -44,7 +49,7 @@ public class gameLogic : MonoBehaviour {
         }
     }
 
-    private void showPatientInfo()
+    public void showPatientInfo()
     {
         //change text fields on the Text Unity UI objects
         ageText.text = age;
@@ -56,17 +61,15 @@ public class gameLogic : MonoBehaviour {
 	void Start ()
     {
         //Load data from JSON
-        LoadGameData();
+        loadGameData();
         
         //Pair Text variables with Unity object UI Text Objects
-        ageText = GameObject.Find("Age").GetComponent<Text>();
-        genderText = GameObject.Find("Gender").GetComponent<Text>();
-        conditionText = GameObject.Find("Condition").GetComponent<Text>();
-        notesText = GameObject.Find("Notes").GetComponent<Text>();
+        ageText = ageObject.GetComponent<Text>();
+        genderText = genderObject.GetComponent<Text>();
+        conditionText = conditionObject.GetComponent<Text>();
+        notesText = notesObject.GetComponent<Text>();
 
         //Show patient info on the computer window
-        showPatientInfo();
-        
-
+        showPatientInfo();       
 	}
 }

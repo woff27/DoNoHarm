@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class changeSpriteOnClick : MonoBehaviour {
-
+public class changeSpriteOnClick : MonoBehaviour
+{
+    private GameObject DataController;
     public GameObject button;
     public Sprite Up;
     public Sprite Down;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
+        DataController = GameObject.Find("DataController");
         GameObject button = gameObject;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    void OnMouseDown()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            button.GetComponent<SpriteRenderer>().sprite = Down;
-        }
-        else
-            button.GetComponent<SpriteRenderer>().sprite = Up;
+        button.GetComponent<SpriteRenderer>().sprite = Down;
+    }
+
+    void OnMouseUp()
+    {
+        button.GetComponent<SpriteRenderer>().sprite = Up;
+        logicScript Script = DataController.GetComponent<logicScript>();
+        Script.showPatientInfo = false;
     }
 }
